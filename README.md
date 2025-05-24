@@ -3,7 +3,7 @@
 ## Domain Proyek
 Proyek ini berada dalam domain Kesehatan, khususnya Kesehatan global dengan tujuan utama untuk memprediksi harapan hidup suatu negara. Harapan hidup merupakan salah satu indikator yang paling penting dalam menilai kualitas hidup dan pembangunan negara karena menggambarkan banyak aspek kesehatan masyarakat, kesejahteraan ekonomi, dan efektivitas sistem layanan kesehatan.
 
-Di sebagian besar negara, terutama negara berkembang, harapan hidup tetap dipengaruhi oleh beberapa kompleksitas seperti tingginya angka anak, kelangkaan gizi, rendahnya tingkat pendidikan, buruknya kses layanan kesehatan, serta faktor sosial-ekonomi lainnya. Menurut World Health Organization, faktor-faktor seperti status ekonomi, infrastruktur sosial, dan kualitas layanan kesehatan berpengaruh besar dalam menentukan harapan hidup sebuah populasi (WHO, 2023).
+Di sebagian besar negara, terutama negara berkembang, harapan hidup tetap dipengaruhi oleh beberapa kompleksitas seperti tingginya angka anak, kelangkaan gizi, rendahnya tingkat pendidikan, buruknya kses layanan kesehatan, serta faktor sosial-ekonomi lainnya. Menurut World Health Organization, faktor-faktor seperti status ekonomi, infrastruktur sosial, dan kualitas layanan kesehatan berpengaruh besar dalam menentukan harapan hidup sebuah populasi (WHO, 2025).
 
 Permasalahan yang dihadapi adalah kompleksitas hubungan antar variabel-variabel tersebut, yang sulit dianalisis hanya dengan pendekatan statistik dasar. Di sinilah machine learning menjadi relevan, karena memiliki kemampuan untuk mempelajari pola dan hubungan non-linear dari data multivariat secara lebih efektif. Dengan membangun model prediktif berbasis machine learning, dapat membantu mengidentifikasi faktor-faktor paling signifikan yang memengaruhi harapan hidup, serta memperkirakan harapan hidup suatu negara berdasarkan data historis dan indikator sosial-ekonomi yang tersedia.
 
@@ -277,13 +277,6 @@ Dari hasil evaluasi, terlihat bahwa model RandomForest menjadi model terbaik unt
 
 Evaluasi menggunakan cross-validation memperlihatkan jika model RandomForest tetap model terbaik untuk melatih data. Karena mode Random Forest menjadi model yang paling baik, maka akan dilakukan optimisasi dengan Hyperparameter Tuning menggunakan RandomizedSearchCV agara hasilnya optimal.
 
-### Mengapa Menggunakan MAE, MSE, RMSE, R², dan Cross-Validation
-- MAE : mudah dipahami karena langsung menunjukkan rata-rata kesalahan dalam satuan asli.
-- MSE : membantu mendeteksi outlier
-- RMSE : Menggabungkan kelebihan MSE (sensitif terhadap error besar) tapi dengan skala yang lebih mudah dipahami.
-- R² : Nilainya antara 0 dan 1 (atau negatif jika model sangat buruk), memudahkan interpretasi.
-- Cross-Validation : teknik validasi model dengan cara membagi data menjadi beberapa bagian (fold), lalu melatih dan menguji model secara bergiliran di setiap fold. Berguna untuk menghindari overfitting.
-
 ### Evaluasi Train & Test Hyperparameter Tuning
 
 | **Dataset Evaluation**    | **MAE** | **MSE** | **RMSE** | **R²** |
@@ -293,7 +286,16 @@ Evaluasi menggunakan cross-validation memperlihatkan jika model RandomForest tet
 - Model tidak overfitting: R² pada train = 0.93 dan test = 0.88, jadi performanya stabil di kedua dataset.
 - Perbedaan MAE dan RMSE antara train dan test tidak terlalu besar, yang berarti model berhasil belajar pola tanpa terlalu menghafal data.
 - Random Forest Regressor dengan tuning + feature selection memberikan hasil prediksi umur harapan hidup yang akurat.
-  
+
+### Mengapa Menggunakan MAE, MSE, RMSE, R², dan Cross-Validation
+- MAE : mudah dipahami karena langsung menunjukkan rata-rata kesalahan dalam satuan asli.
+- MSE : membantu mendeteksi outlier
+- RMSE : Menggabungkan kelebihan MSE (sensitif terhadap error besar) tapi dengan skala yang lebih mudah dipahami.
+- R² : Nilainya antara 0 dan 1 (atau negatif jika model sangat buruk), memudahkan interpretasi.
+- Cross-Validation : teknik validasi model dengan cara membagi data menjadi beberapa bagian (fold), lalu melatih dan menguji model secara bergiliran di setiap fold. Berguna untuk menghindari overfitting.
+
+Berikut adalah visualisasi antara aktual data dengan prediksi data.
+
 ![alt_text](https://github.com/salstq/Life-Expectancy-Prediction/blob/main/Gambar/Visualisasi.png)
 
 ## Dampak Model terhadap Business Understanding
@@ -309,4 +311,6 @@ Evaluasi menggunakan cross-validation memperlihatkan jika model RandomForest tet
 ## Kesimpulan
 Berdasarkan hasil di atas, dapat dikatakan bahwa model mampu memprediksi umur harapan hidup dengan hasil akurasi menggunakan algoritma Random Forest Regressor yaitu 88%. SSelain itu, dari hasil visualisasi menggunakan correlation matrix, diketahui bahwa fitur "Income Composition of Resources" yang merupakan indikator pembangunan manusia dalam aspek komposisi pendapatan sumber daya (dengan nilai indeks berkisar antara 0 hingga 1) memiliki korelasi yang sangat kuat terhadap umur harapan hidup. Hal ini menegaskan bahwa faktor sosial-ekonomi memainkan peran penting dalam menentukan tingkat kesehatan dan umur suatu populasi. Oleh karena itu, dapat dikatakan bahwa analisis ini dapat menjawab dari kedua problem statements.
 
+## Referensi 
+_Social determinants of health_ [Sumber_referensi](https://www.who.int/news-room/fact-sheets/detail/social-determinants-of-health)
 
