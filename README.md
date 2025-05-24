@@ -1,19 +1,24 @@
 # Laporan Proyek Machine Learning - Salsa Tashfiyatul Qolbi
 
 ## Domain Proyek
-Proyek ini berada dalam domain Kesehatan, khususnya Kesehatan global. Proyek ini digunakan untuk memprediksi harapan hidup (life expectancy) suatu negara berdasarkan faktor-faktor yang mempengaruhinya, seperti faktor sosial, ekonomi, dan kesehatan masyarakat.
+Proyek ini berada dalam domain Kesehatan, khususnya Kesehatan global dengan tujuan utama untuk memprediksi harapan hidup suatu negara. Harapan hidup merupakan salah satu indikator yang paling penting dalam menilai kualitas hidup dan pembangunan negara karena menggambarkan banyak aspek kesehatan masyarakat, kesejahteraan ekonomi, dan efektivitas sistem layanan kesehatan.
 
-Menurut WHO (WHO, 2025), harapan hidup dipengaruhi oleh berbagai faktor, seperti angka kematian anak, gizi, status ekonomi, layanan Kesehatan, dan infrastruktur sosial. Dengan memanfaatkan machine learning, dapat membantu memodelkan hubungan kompleks antar variabel tersebut.
+Di sebagian besar negara, terutama negara berkembang, harapan hidup tetap dipengaruhi oleh beberapa kompleksitas seperti tingginya angka anak, kelangkaan gizi, rendahnya tingkat pendidikan, buruknya kses layanan kesehatan, serta faktor sosial-ekonomi lainnya. Menurut World Health Organization, faktor-faktor seperti status ekonomi, infrastruktur sosial, dan kualitas layanan kesehatan berpengaruh besar dalam menentukan harapan hidup sebuah populasi (WHO, 2023).
+
+Permasalahan yang dihadapi adalah kompleksitas hubungan antar variabel-variabel tersebut, yang sulit dianalisis hanya dengan pendekatan statistik dasar. Di sinilah machine learning menjadi relevan, karena memiliki kemampuan untuk mempelajari pola dan hubungan non-linear dari data multivariat secara lebih efektif. Dengan membangun model prediktif berbasis machine learning, dapat membantu mengidentifikasi faktor-faktor paling signifikan yang memengaruhi harapan hidup, serta memperkirakan harapan hidup suatu negara berdasarkan data historis dan indikator sosial-ekonomi yang tersedia.
+
+Proyek ini mempunyai tujuan untuk tidak hanya memprediksi nilai harapan hidup dengan akurat, tapi juga memberi kemampuan pengetahuan pada pengambil kebijakan dan institusi kesehatan internasional dalam merencanakan strategi intervensi yang lebih spesifik sasaran berdasarkan data.
 
 ## Business Understanding
 
 ### Problem Statements
 - Dapatkah umur harapan hidup suatu negara diprediksi secara akurat berdasarkan faktor-faktor sosial, ekonomi, dan kesehatan?
 - Apa saja faktor yang paling berpengaruh terhadap harapan hidup suatu negara?
+- Algoritma regresi mana yang memberikan performa terbaik dalam memprediksi harapan hidup?
 
 ### Goals
-- Mengidentifikasi fitur-fitur yang paling signifikan terhadap harapan hidup.
-- Membangun model prediktif yang akurat untuk memperkirakan nilai harapan hidup.
+- Membangun model prediktif untuk memperkirakan nilai harapan hidup berdasarkan data sosial, ekonomi, dan kesehatan.
+- Mengidentifikasi fitur-fitur yang paling signifikan dan berkontribusi besar terhadap prediksi harapan hidup.
 - Membandingkan performa beberapa algoritma regresi dan memilih model terbaik.
 
 ### Solution Statements
@@ -93,8 +98,6 @@ Output di atas menunjukkan bahwa dataset memiliki 2938 data dan 22 kolom.
 - Terdapat 16 tipe data float64
 - Terdapat Missing Value
   
-Terlihat bahwa dalam dataset terdapat missing value. Karena data yang hilang semuanya berada pada kolom numerik, maka solusi yang dapat dilakukan adalah dengan imputasi atau mengisi missing value dengan median.
-
 ### EDA - Univariate Analysis
 Berikut adalah persebaran data atau distribusi data dari fitur numerik.
 ![alt text](https://github.com/salstq/Life-Expectancy-Prediction/blob/main/Gambar/numerical_distribution.png)
@@ -108,11 +111,23 @@ Terdapat beberapa kolom numerik yang memiliki korelasi yang cukup tinggi, sepert
 
 ## Data Preparation
 Teknik yang akan dilakukan:
+- Ganti nama kolom : mengganti nama kolom yang salah dan tidak rapih
+- Missing value : mengganti nilai kosong dengan nilai median
+- Duplikasi data : cek apakah terdapat data yang terduplikasi
 - Fitur selection : menghapus beberapa fitur yang tidak relevan dan berkorelasi tinggi 
 - Outliers checking & handling : Mengurangi outliers
 - Standarisasi : Menyamakan skala fitur
 - Label encoding : Mengubah fitur kategorikal menjadi numerik
 - Split data : Membagi dataset menjadi 2, yaitu data latih (70%) dan data uji (20%)
+
+### Ganti nama kolom 
+Terdapat kesalahan penamaan pada kolom thinness 1-19 years, isi dari kolom tersebut adalah data orang dari umur 10-19 tahun, sehingga kolom itu harus diganti namanya. Selain itu, terdapat beberapa kolom yang penamaannya tidak rapih.
+
+### Missing Value
+Terlihat bahwa dalam dataset terdapat missing value. Karena data yang hilang semuanya berada pada kolom numerik, maka solusi yang dapat dilakukan adalah dengan imputasi atau mengisi missing value dengan median. Walaupun penanganan missing value termasuk tahap data preparation, namun tetap dilakukan sebelum EDA agar hasil dari EDA dapat memberikan hasil yang maksimal.
+
+### Duplikasi Data
+Tidak terdapat data yang terduplikasi. Sama hal nya dengan missing value, cek duplikasi data dilakukan sebelum EDA.
 
 ### Fitur Selection
 Memilih fitur yang relevan dan menghapus fitur yang tidak relevan serta berkorelasi tinggi. Adapun fitur yang dihapus adalah infant deaths, percentage expenditure, Country, thinness 10-19 years, Hepatitis B
@@ -171,18 +186,22 @@ Menggunakan tiga model, yaitu:
 - Linear Regression
 - Random Forest Regressor
 - Gradient Boosting Regressor
+  
+Selain menggunakan tiga model, pada tahap modelling juga dilakukan tuning, dengan tahapan sebagai berikut: 
+- Feature Importance
+- Hyperparameter Tuning
 
 ### Linear Regression
-Linear Regression adalah model paling sederhana karena memetakan hubungan linier antara input (X) dengan target (y) dengan persamaan garis lurus.
+Linear Regression adalah model paling sederhana karena memetakan hubungan linier antara input (X) dengan target (y) dengan persamaan garis lurus. Parameter yang digunakan adalah parameter default.
 Kelebihan:
 - Sederhana dan cepat
 - Bisa digunakan sebagai baseline model
 Kekurangan:
 - Tidak cocok untuk hubungan non-linier
--  Sangat sensitif dengan outliers
+- Sangat sensitif dengan outliers
 
 ### Random Forest Regressor
-Random Forest Regressor adalah ensemble model berbasis pohon keputusan. Algoritma ini membangun banyak pohon keputusan secara acak pada subset data, kemudian menggabungkan hasil prediksi dari masing-masing pohon dengan metode voting
+Random Forest Regressor adalah ensemble model berbasis pohon keputusan. Algoritma ini membangun banyak pohon keputusan secara acak pada subset data, kemudian menggabungkan hasil prediksi dari masing-masing pohon dengan metode voting. Parameter yang digunakan adalah parameter default.
 Kelebihan:
 - Kuat terhadap overfitting
 - Tidak sensitif terhadap outliers
@@ -191,7 +210,7 @@ Kekurangan:
 - Butuh tuning parameter untuk performa maksimal
 
 ### Gradient Boosting Regressor
-Gradient Boosting Regressor adalah model ensemble lain berbasis decision tree, tapi menggunakan pendekatan boosting, artinya membangun pohon bertahap, di mana tiap pohon mencoba memperbaiki error dari pohon sebelumnya.
+Gradient Boosting Regressor adalah model ensemble lain berbasis decision tree, tapi menggunakan pendekatan boosting, artinya membangun pohon bertahap, di mana tiap pohon mencoba memperbaiki error dari pohon sebelumnya. Parameter yang digunakan adalah parameter default.
 Kelebihan:
 - Akurasi tinggi
 - Bisa menangani berbagai jenis data
@@ -199,8 +218,48 @@ Kekurangan:
 - Rentan overfitting
 - Butuh waktu lebih lama
 
+#### Feature Importance
+Memilih fitur yang paling penting pada algoritma Random Forest. Memilih 10 fitur tertinggi, yaitu Income composition of resources, Adult Mortality, thinness 5-9 years, Total expenditure, Alcohol, Population, Schooling, GDP, under-five deaths, BMI
+
+#### Hyperparameter Tuning
+RandomizedSearchCV adalah metode pencarian hyperparameter untuk model machine learning yang melakukan pencarian secara acak pada ruang parameter yang telah ditentukan. Metode ini lebih efisien daripada GridSearchCV, karena tidak mencoba semua kombinasi parameter tetapi memilih acak iterasi yang telah ditentukan.
+
+RandomizedSearchCV digunakan untuk mencari kombinasi parameter terbaik secara acak dari:
+- n_estimators: Jumlah pohon dalam hutan
+- max_depth: Kedalaman maksimum tiap pohon
+- min_samples_split: Minimum sampel untuk membagi node
+- min_samples_leaf: Minimum sampel pada daun
+- max_features: Jumlah fitur yang dipertimbangkan di setiap split
+- bootstrap: Apakah memakai bootstrapped samples atau tidak
+
+Pengaturan RandomizedSearchCV:
+- n_iter=50: Jumlah kombinasi parameter yang diacak.
+- cv=5: 5-fold cross-validation.
+- scoring='r2': Evaluasi berdasarkan nilai R² score.
+- n_jobs=-1: Menggunakan seluruh core CPU untuk mempercepat proses.
+- random_state=42: Untuk hasil yang konsisten.
+
+Setelah melakukan proses tuning menggunakan RandomizedSearchCV dengan 50 iterasi dan validasi silang sebanyak 5 fold, diperoleh kombinasi hyperparameter terbaik untuk model Random Forest Regressor sebagai berikut:
+- n_estimators = 100
+Jumlah pohon keputusan (trees) yang digunakan dalam ensemble model adalah 100. Jumlah ini cukup untuk memberikan performa yang stabil tanpa menambah waktu komputasi yang berlebihan.
+- min_samples_split = 5
+Minimum jumlah sampel yang diperlukan untuk membagi (split) sebuah node dalam pohon keputusan adalah 5. Ini membantu menghindari pembentukan node yang terlalu kecil dan mengurangi risiko overfitting.
+- min_samples_leaf = 4
+Minimum jumlah sampel yang harus ada di setiap daun (leaf) pohon adalah 4. Ini juga berfungsi sebagai regularisasi agar model tidak terlalu kompleks.
+- max_features = 'sqrt'
+Setiap pohon hanya menggunakan subset fitur sebanyak akar kuadrat dari total fitur yang tersedia untuk mencari pembagian terbaik, yang dapat meningkatkan keragaman antar pohon dan mengurangi korelasi antar pohon.
+- max_depth = 10
+Kedalaman maksimum tiap pohon dibatasi hingga 10 tingkat, sehingga pohon tidak tumbuh terlalu dalam dan menghindari overfitting.
+- bootstrap = True
+Setiap pohon dibangun menggunakan sampling bootstrap (sampling dengan pengembalian) dari data pelatihan, sesuai dengan prinsip Random Forest.
+
 ## Evaluation
-### Test Evaluation
+Pada evaluasi terdapat 3 tahap evaluasi, yaitu
+- Evaluasi Test Set
+- Cross-Validation
+- Evaluasi Train & Test Hyperparameter Tuning
+  
+### Evaluasi Test Set
 | **Model**                 | **MAE** | **MSE** | **RMSE** | **R²** |
 |---------------------------|---------|---------|----------|--------|
 | Linear Regression         | 2.141503757392989 | 8.316375553550452 | 2.883812676570802 | 0.731487625387514 |
@@ -225,27 +284,8 @@ Evaluasi menggunakan cross-validation memperlihatkan jika model RandomForest tet
 - R² : Nilainya antara 0 dan 1 (atau negatif jika model sangat buruk), memudahkan interpretasi.
 - Cross-Validation : teknik validasi model dengan cara membagi data menjadi beberapa bagian (fold), lalu melatih dan menguji model secara bergiliran di setiap fold. Berguna untuk menghindari overfitting.
 
-### Hyperparameter Tuning
-- Feature Importance
-- Hyperparameter Tuning
-- Evaluasi
-- Visualisasi
+### Evaluasi Train & Test Hyperparameter Tuning
 
-#### Feature Importance
-Memilih fitur yang paling penting pada algoritma Random Forest. Memilih 10 fitur tertinggi, yaitu Income composition of resources, Adult Mortality, thinness 5-9 years, Total expenditure, Alcohol, Population, Schooling, GDP, under-five deaths, BMI
-
-#### Hyperparameter Tuning
-RandomizedSearchCV digunakan untuk mencari kombinasi parameter terbaik secara acak dari:
-* n_estimators: Jumlah pohon dalam hutan
-* max_depth: Kedalaman maksimum tiap pohon
-* min_samples_split: Minimum sampel untuk membagi node
-* min_samples_leaf: Minimum sampel pada daun
-* max_features: Jumlah fitur yang dipertimbangkan di setiap split
-* bootstrap: Apakah memakai bootstrapped samples atau tidak
-
-`cv=5` artinya 5-fold cross-validation dipakai untuk mengevaluasi performa kombinasi parameter secara lebih baik.
-
-#### Evaluasi
 | **Dataset Evaluation**    | **MAE** | **MSE** | **RMSE** | **R²** |
 |---------------------------|---------|---------|----------|--------|
 | Train Set Evaluation      | 0.9776833482888506 | 2.0755808737338812 | 1.440687639196603 | 0.9318150999682708 |
@@ -258,13 +298,13 @@ RandomizedSearchCV digunakan untuk mencari kombinasi parameter terbaik secara ac
 
 ## Dampak Model terhadap Business Understanding
 ### Apakah Model Menjawab Problem Statements?
-* **Ya**, model berhasil membangun prediksi umur harapan hidup menggunakan beberapa algoritma regresi, dan berhasil mengidentifikasi faktor-faktor penting, seperti fitur importance yang telah dissebutkan di atas.
+- **Ya**, model berhasil membangun prediksi umur harapan hidup menggunakan beberapa algoritma regresi, berhasil mengidentifikasi faktor-faktor penting, seperti fitur importance yang telah dissebutkan di atas, dan berhasil menentukan mana algoritma yang memberikan performa terbaik.
 
 ### Apakah Model Berhasil Mencapai Goals?
-* **Ya**, model berhasil mengidentifikasi fitur-fitur yang signifikan dalam memprediksi harapan hidup, dan model mampu membangun model yang dapat memprediksi dengan akurat. Penggunaan tiga jenis algoritma ini memungkinkan untuk dilakukan perbandingan terhadap performa masing-masing model, dan didapat model terbaik, yaitu Random Forest Regressor.
+- **Ya**, model berhasil mengidentifikasi fitur-fitur yang signifikan dalam memprediksi harapan hidup, dan model mampu membangun model yang dapat memprediksi dengan akurat. Penggunaan tiga jenis algoritma ini memungkinkan untuk dilakukan perbandingan terhadap performa masing-masing model, dan didapat model terbaik, yaitu Random Forest Regressor.
 
 ### Apakah Solusi yang Direncanakan Berdampak?
-* **Ya**, model ini berdampak, karena memeberikan prediksi akurat untuk umur harapan hidup, dapat membantu pemngambil kebijakan memahami faktor utama yang mempengaruhi harapan hidup, dan hasil dapat digunakan untuk intervensi kebijakan berbasis data di bidang kesehatan dan ekonomi.
+- **Ya**, model ini berdampak, karena memeberikan prediksi akurat untuk umur harapan hidup, dapat membantu pemngambil kebijakan memahami faktor utama yang mempengaruhi harapan hidup, dan hasil dapat digunakan untuk intervensi kebijakan berbasis data di bidang kesehatan dan ekonomi.
 
 ## Kesimpulan
 Berdasarkan hasil di atas, dapat dikatakan bahwa model mampu memprediksi umur harapan hidup dengan hasil akurasi menggunakan algoritma Random Forest Regressor yaitu 88%. SSelain itu, dari hasil visualisasi menggunakan correlation matrix, diketahui bahwa fitur "Income Composition of Resources" yang merupakan indikator pembangunan manusia dalam aspek komposisi pendapatan sumber daya (dengan nilai indeks berkisar antara 0 hingga 1) memiliki korelasi yang sangat kuat terhadap umur harapan hidup. Hal ini menegaskan bahwa faktor sosial-ekonomi memainkan peran penting dalam menentukan tingkat kesehatan dan umur suatu populasi. Oleh karena itu, dapat dikatakan bahwa analisis ini dapat menjawab dari kedua problem statements.
